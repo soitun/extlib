@@ -20,7 +20,8 @@
   {registered, [chash_pg]},
   {applications, [
                   kernel,
-                  stdlib
+                  stdlib,
+				  crypto
                  ]},
   {mod, { extlib_app, []}},
   {env, []}
