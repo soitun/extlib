@@ -13,6 +13,7 @@
         datetime/0,
         datetime/1,
         timestamp/0, 
+		timestamp/1,
         strftime/0,
         strftime/1,
         microsecs/0,
@@ -37,6 +38,10 @@ appvsn() ->
 timestamp() ->
 	{MegaSecs, Secs, _MicroSecs} = erlang:now(),
 	MegaSecs * 1000000 + Secs.
+
+timestamp({{_Y,_M,_D}, {_H,_MM,_S}} = DateTime) ->
+	Seconds = fun(D) -> calendar:datetime_to_gregorian_seconds(D) end,
+	Seconds(DateTime) - Seconds({{1970,1,1},{0,0,0}}).
 
 microsecs() ->
     {Mega,Sec,Micro} = erlang:now(),
