@@ -1,1 +1,5 @@
 Extended stand library for erlang and opengoss.
+
+Change Logs
+
+2012-04-24	fix 'core_sup' bug.

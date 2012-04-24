@@ -1,6 +1,6 @@
 {application, extlib,
  [{description, "Extended Standard Library"},
-  {vsn, "1.0.0"},
+  {vsn, "1.0.1"},
   {modules, [
 		chash,
 		chash_pg,
