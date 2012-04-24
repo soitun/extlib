@@ -356,7 +356,7 @@ ensure_started() ->
 	undefined ->
 	    C = {chash_pg, {?MODULE, start_link, []}, permanent,
 		 1000, worker, [?MODULE]},
-	    supervisor:start_child(core_sup, C);
+	    supervisor:start_child(extlib_sup, C);
 	Pid ->
 	    {ok, Pid}
     end.
