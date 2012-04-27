@@ -14,6 +14,8 @@
         datetime/1,
         timestamp/0, 
 		timestamp/1,
+		strfdate/1,
+		strfdate/2,
         strftime/0,
         strftime/1,
         microsecs/0,
@@ -55,11 +57,16 @@ millsecs() ->
 datetime() ->
     calendar:local_time().
 
+strfdate({Y,M,D}) ->
+    lists:concat([zeropad(I) || I <- [Y,M,D]]).
+
+strfdate({Y,M,D}, Sep) when is_list(Sep) ->
+    lists:concat([zeropad(I) || I <- [Y,M,D], Sep]).
+
 strftime() ->
     strftime({date(), time()}).
 
-strftime(DateTime) ->
-    {{Y,M,D}, {H,MM,S}} = DateTime,
+strftime({{Y,M,D}, {H,MM,S}}) ->
     Date = string:join([zeropad(I) || I <- [Y,M,D]], "-"),
     Time = string:join([zeropad(I) || I <- [H, MM, S]], ":"),
     lists:concat([Date, " ", Time]).
