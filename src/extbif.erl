@@ -26,7 +26,9 @@
         binary_split/2,
 		binary_join/2,
         to_integer/1,
-        zeropad/1]).
+        zeropad/1,
+		is_string/1,
+		sleep/1]).
 
 appvsn() ->
     {ok, App} = application:get_application(),
@@ -151,3 +153,15 @@ zeropad(I) when I < 10 ->
     lists:concat(["0", I]);
 zeropad(I) ->
     integer_to_list(I).
+
+is_string([C|Rest]) when C >= 0, C =< 255 -> is_string(Rest);
+
+is_string([]) -> true;
+
+is_string(_) -> false.
+
+sleep(Time) ->
+	receive 
+	after Time -> 
+		true	
+	end.
