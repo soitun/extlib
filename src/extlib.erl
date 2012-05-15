@@ -2,6 +2,13 @@
 
 -compile(export_all).
 
+appvsn() ->
+    {ok, App} = application:get_application(),
+    case application:get_key(App, vsn) of
+    {ok, Vsn} -> Vsn;
+    undefined -> "unknown"
+    end.
+
 %copy from rabbitmq
 module_with_attrs(App, Name) ->
 	case application:get_key(App, modules) of
