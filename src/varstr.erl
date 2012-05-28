@@ -7,29 +7,31 @@
 %%%
 %%% Copyright (C) 2011, www.opengoss.com 
 %%%----------------------------------------------------------------------
-
 %%%Example: "My name is ${name}"
 
 -module(varstr).
 
+-import(string, [join/2]).
+
 -import(lists, [reverse/1]).
 
--export([scan/1, 
-        eval/2]).
+-export([scan/1, eval/2, eval/3]).
 
 eval(VarStr, VarList) ->
-    Tokens = scan(VarStr),
-    Words = 
-    lists:map(fun(Token) -> 
-    case Token of
-    "$" ++ VarName -> 
-        {value, Val} = dataset:get_value(list_to_atom(VarName), VarList, ""),
-        str(Val);
-    _ -> 
-        Token
-    end
-    end, Tokens),
-    string:join(Words, "").
+    join([val(Token, VarList) || Token <- scan(VarStr)], "").
+
+val("$"++Var = Token, VarList) ->
+	str(proplists:get_value(list_to_atom(Var), VarList, Token));
+val(Token, _VarList) ->
+	Token.
+
+eval(VarStr, VarList, '$') ->
+    join([val2(Token, VarList) || Token <- scan(VarStr)], "").
+
+val2("$"++_ = Token, VarList) ->
+	str(proplists:get_value(list_to_atom(Token), VarList, Token));
+val2(Token, _VarList) ->
+	Token.
 
 scan([]) ->
     [];
