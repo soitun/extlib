@@ -206,11 +206,19 @@ eval({'<', Name, Val}, Args) ->
     {value, {_, ArgVal}} = keysearch(Name, 1, Args),
     to_integer(ArgVal) < to_integer(Val);
 
-eval({'!=', Name, Val}, Args) ->
+eval({'!=', Name, Val}, Args) when is_integer(Val) ->
+    {value, {_, ArgVal}} = keysearch(Name, 1, Args),
+    not (ArgVal == Val);
+
+eval({'!=', Name, Val}, Args) when is_list(Val) ->
     {value, {_, ArgVal}} = keysearch(Name, 1, Args),
     not (string:to_lower(string:strip(ArgVal)) == string:to_lower(Val));
 
-eval({'=', Name, Val}, Args) ->
+eval({'=', Name, Val}, Args) when is_integer(Val) ->
+    {value, {_, ArgVal}} = keysearch(Name, 1, Args),
+    ArgVal == Val;
+
+eval({'=', Name, Val}, Args) when is_list(Val) ->
      case keysearch(Name, 1, Args) of
      {value, {_, ArgVal}} ->
 		if
